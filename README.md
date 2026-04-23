@@ -65,111 +65,153 @@ This project was built as an academic cybersecurity and blockchain-oriented prot
 - Dedicated pages for:
   - posts
   - post details
-  - campaign clusters
+  - campaigns
   - audit chain
 
 ---
 
-graph TD
-    subgraph Input
-    A[Manual Input / Social Media / Email / URLs] --> B[Supabase Storage Layer]
-    end
+## 🏗️ System Architecture
 
-    subgraph Processing_Engines
-    B --> C{Analysis Orchestrator}
-    C --> D[Groq Analysis Engine]
-    C --> E[Fallback Classifier]
-    C --> F[Coordination Engine]
-    
-    D -->|Summary/Risk| G[Risk Scoring Engine]
-    E -->|Label/Confidence| G
-    F -->|Coordination Score| G
-    end
+```text
++------------------------------------------------------+
+|                   Data Ingestion Layer               |
+|  Manual Analyst Input / Social Media / Email / URLs  |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|                 Supabase Storage Layer               |
+|  posts, accounts, hashtags, urls, analysis_results   |
++------------------------------------------------------+
+                           |
+        -----------------------------------------
+        |                    |                  |
+        v                    v                  v
++---------------+   +----------------+   +----------------------+
+| Groq Analysis |   | Fallback       |   | Coordination         |
+| Engine        |   | Classifier     |   | Detection Engine     |
+| summary       |   | label          |   | repeated URLs        |
+| explanation   |   | score          |   | repeated hashtags    |
+| narrative     |   |                |   | repeated narratives  |
+| Groq risk     |   |                |   | coordination score   |
++---------------+   +----------------+   +----------------------+
+        |                    |                  |
+        -------------------  |  ----------------
+                          |  |  |
+                          v  v  v
++------------------------------------------------------+
+|                 Risk Scoring Engine                  |
+| Combines Groq risk + classifier score + coordination |
+| Produces Final Risk Score (0-100)                    |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|              Campaign & Audit Intelligence           |
+|  campaign_clusters  |  audit_chain (SHA-256 linked)  |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|                  Analyst Dashboard                   |
+|  Dashboard / Posts / Post Detail / Campaigns / Audit |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|                Security Response Layer               |
+| Investigation / Monitoring / Escalation / Reporting  |
++------------------------------------------------------+
 
-    subgraph Intelligence_Forensics
-    G --> H[Campaign Clusters]
-    G --> I[Audit Chain - SHA-256 Linked]
-    end
+---
 
-    subgraph UI_Layer
-    H & I --> J[Analyst Dashboard]
-    J --> K[Security Response Layer]
-    end
+## 🛠️ Tech Stack
 
-    style G fill:#f96,stroke:#333,stroke-width:2px
-    style I fill:#bbf,stroke:#333,stroke-width:2px
-    
-🛠️ Tech Stack
-Frontend
-Next.js 14
-TypeScript
-Tailwind CSS
-Backend / Data Layer
-Supabase PostgreSQL
-Next.js Server Actions
-AI / Analysis
-Groq API
-Lightweight fallback classifier
-Security / Forensics
-SHA-256 audit chain
-SQL-based coordination detection
-Final risk scoring engine
-Deployment
-Vercel
-Supabase
-📦 Implemented Modules
-1. Ingest Module
+### Frontend
+- **Next.js 14**
+- **TypeScript**
+- **Tailwind CSS**
+
+### Backend / Data Layer
+- **Supabase PostgreSQL**
+- **Next.js Server Actions**
+
+### AI / Analysis
+- **Groq API**
+- **Lightweight fallback classifier**
+
+### Security / Forensics
+- **SHA-256 audit chain**
+- **SQL-based coordination detection**
+- **Final risk scoring engine**
+
+### Deployment
+- **Vercel**
+- **Supabase**
+
+---
+
+## 📦 Implemented Modules
+
+### 1. Ingest Module
 Allows analysts to submit:
+- source platform
+- account handle
+- suspicious text
+- optional narrative label
+- hashtags
+- URLs
 
-source platform
-account handle
-suspicious text
-optional narrative label
-hashtags
-URLs
-2. Groq Analysis Module
+### 2. Groq Analysis Module
 Runs structured LLM analysis and stores:
+- summary
+- explanation
+- Groq risk score
+- narrative label
 
-summary
-explanation
-Groq risk score
-narrative label
-3. Classification Module
+### 3. Classification Module
 Runs a lightweight fallback classifier and stores:
+- label
+- confidence score
 
-label
-confidence score
-4. Coordination Module
+### 4. Coordination Module
 Computes a coordination score from:
+- repeated URLs
+- repeated hashtags
+- repeated narratives
 
-repeated URLs
-repeated hashtags
-repeated narratives
-5. Risk Scoring Module
+### 5. Risk Scoring Module
 Combines Groq, classifier, and coordination signals into a final risk score.
 
-6. Audit Module
-Writes tamper-evident records into audit_chain using:
+### 6. Audit Module
+Writes tamper-evident records into `audit_chain` using:
+- payload hash
+- previous hash
+- current hash
+- event type
+- timestamp
 
-payload hash
-previous hash
-current hash
-event type
-timestamp
-🗄️ Database Schema
+---
+
+## 🗄️ Database Schema
+
 Main tables:
+- `accounts`
+- `posts`
+- `hashtags`
+- `post_hashtags`
+- `urls`
+- `post_urls`
+- `analysis_results`
+- `campaign_clusters`
+- `audit_chain`
 
-accounts
-posts
-hashtags
-post_hashtags
-urls
-post_urls
-analysis_results
-campaign_clusters
-audit_chain
-📥 Installation
-1. Clone the Repository
+---
+
+## 📥 Installation
+
+### 1. Clone the Repository
+```bash
 git clone https://github.com/your-username/aegis-llm.git
 cd aegis-llm
 2. Install Dependencies
@@ -220,6 +262,7 @@ NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 GROQ_API_KEY
 Deploy
+
 ⚖️ Policy and Security Relevance
 Aegis-LLM is designed around the principle that national security monitoring must balance:
 
@@ -241,6 +284,7 @@ richer campaign analytics
 SIEM integration
 stronger access control and Row Level Security
 confidential ledger or blockchain-backed verification
+
 🤝 Contributing
 Contributions are welcome in:
 
@@ -251,11 +295,3 @@ explainability features
 deployment and DevOps improvements
 📄 License
 This project is licensed under the MIT License.
-
-
-Then save and run:
-
-```powershell
-git add README.md
-git commit -m "Replace README with text architecture diagram"
-git push origin main
