@@ -42,6 +42,8 @@ export async function submitIngest(
     };
   }
 
+  let postId: string;
+
   try {
     const accountId = await findOrCreateAccount(platform, handle);
     const supabase = getSupabaseServerClient();
@@ -68,7 +70,7 @@ export async function submitIngest(
     await linkPostHashtags(post.id, hashtagIds);
     await linkPostUrls(post.id, urlIds);
 
-    redirect(`/posts/${post.id}`);
+    postId = post.id;
   } catch (error) {
     console.error(error);
 
@@ -76,4 +78,6 @@ export async function submitIngest(
       error: "Failed to save the post. Please check your values and try again.",
     };
   }
+
+  redirect(`/posts/${postId}`);
 }
