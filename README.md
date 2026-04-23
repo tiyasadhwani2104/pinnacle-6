@@ -125,7 +125,7 @@ This project was built as an academic cybersecurity and blockchain-oriented prot
 
 ---
 
-## 🛠️ Tech Stack
+#🛠️ Tech Stack
 
 ### Frontend
 - **Next.js 14**
@@ -151,7 +151,7 @@ This project was built as an academic cybersecurity and blockchain-oriented prot
 
 ---
 
-## 📦 Implemented Modules
+#📦 Implemented Modules
 
 ### 1. Ingest Module
 Allows analysts to submit:
@@ -193,7 +193,7 @@ Writes tamper-evident records into `audit_chain` using:
 
 ---
 
-## 🗄️ Database Schema
+#🗄️ Database Schema
 
 Main tables:
 - `accounts`
@@ -208,7 +208,7 @@ Main tables:
 
 ---
 
-## 📥 Installation
+#📥 Installation
 
 ### 1. Clone the Repository
 ```bash
