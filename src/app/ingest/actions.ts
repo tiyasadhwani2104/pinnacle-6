@@ -33,6 +33,15 @@ export async function submitIngest(
     };
   }
 
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return {
+      error: "Supabase environment variables are missing on the server.",
+    };
+  }
+
   try {
     const accountId = await findOrCreateAccount(platform, handle);
     const supabase = getSupabaseServerClient();
