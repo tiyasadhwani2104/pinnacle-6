@@ -12,7 +12,9 @@ Aegis-LLM is a cloud-based threat intelligence platform designed to detect, anal
 
 As generative AI makes it easier to create persuasive and scalable malicious content, Aegis-LLM helps analysts monitor suspicious narratives, assign risk scores, detect coordinated behavior, and maintain tamper-evident forensic records.
 
-This project was built as a cybersecurity and blockchain-oriented academic prototype with a focus on practical deployment, explainability, and national security relevance.
+This project was built as an academic cybersecurity and blockchain-oriented prototype with a focus on practical deployment, explainability, and national security relevance.
+
+---
 
 ## 🚀 Key Features
 
@@ -65,6 +67,8 @@ This project was built as a cybersecurity and blockchain-oriented academic proto
   - post details
   - campaign clusters
   - audit chain
+
+---
 
 ## 🏗️ System Architecture
 
@@ -183,7 +187,7 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_publishable_key
 GROQ_API_KEY=your_groq_api_key
 4. Set Up Supabase
-Run these SQL files in Supabase SQL Editor:
+Run these SQL files in the Supabase SQL Editor:
 
 supabase/schema.sql
 supabase/seed.sql
@@ -255,9 +259,9 @@ deployment and DevOps improvements
 This project is licensed under the MIT License.
 
 
-To update it:
+Then update it with:
 
 ```powershell
 git add README.md
-git commit -m "Update README with architecture diagram"
+git commit -m "Clean up README formatting"
 git push origin main
