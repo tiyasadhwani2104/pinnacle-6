@@ -72,39 +72,56 @@ This project was built as an academic cybersecurity and blockchain-oriented prot
 
 ## 🏗️ System Architecture
 
-```mermaid
-flowchart TD
-    A["Data Ingestion<br/>Manual Analyst Input / Social Media / Email / Reports"]
-    B["Supabase Storage<br/>posts, accounts, hashtags, urls"]
-    C["Groq Analysis Engine<br/>Summary, Explanation, Narrative Label, Groq Risk"]
-    D["Fallback Classifier<br/>Phishing / Disinformation / Propaganda / Manipulation"]
-    E["Coordination Detection Engine<br/>Repeated URLs, Hashtags, Narrative Labels"]
-    F["Risk Scoring Engine<br/>Final Risk Score 0-100"]
-    G["Campaign Cluster Store<br/>campaign_clusters"]
-    H["Audit Chain Engine<br/>SHA-256 Hash Chaining"]
-    I["Analyst Dashboard<br/>Dashboard / Posts / Campaigns / Audit"]
-    J["Decision Point<br/>High-Risk or Coordinated Threat?"]
-    K["Security Response Support<br/>Investigation / Monitoring / Escalation"]
-    L["Low-Risk Monitoring<br/>Store and Continue Observation"]
-
-    A --> B
-    B --> C
-    B --> D
-    B --> E
-    C --> F
-    D --> F
-    E --> F
-    E --> G
-    A --> H
-    C --> H
-    D --> H
-    E --> H
-    F --> I
-    G --> I
-    H --> I
-    I --> J
-    J -->|Yes| K
-    J -->|No| L
+```text
++------------------------------------------------------+
+|                   Data Ingestion Layer               |
+|  Manual Analyst Input / Social Media / Email / URLs  |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|                 Supabase Storage Layer               |
+|  posts, accounts, hashtags, urls, analysis_results   |
++------------------------------------------------------+
+                           |
+        -----------------------------------------
+        |                    |                  |
+        v                    v                  v
++---------------+   +----------------+   +----------------------+
+| Groq Analysis |   | Fallback       |   | Coordination         |
+| Engine        |   | Classifier     |   | Detection Engine     |
+| summary       |   | label          |   | repeated URLs        |
+| explanation   |   | score          |   | repeated hashtags    |
+| narrative     |   |                |   | repeated narratives  |
+| Groq risk     |   |                |   | coordination score   |
++---------------+   +----------------+   +----------------------+
+        |                    |                  |
+        -------------------  |  ----------------
+                          |  |  |
+                          v  v  v
++------------------------------------------------------+
+|                 Risk Scoring Engine                  |
+| Combines Groq risk + classifier score + coordination |
+| Produces Final Risk Score (0-100)                    |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|              Campaign & Audit Intelligence           |
+|  campaign_clusters  |  audit_chain (SHA-256 linked)  |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|                  Analyst Dashboard                   |
+|  Dashboard / Posts / Post Detail / Campaigns / Audit |
++------------------------------------------------------+
+                           |
+                           v
++------------------------------------------------------+
+|                Security Response Layer               |
+| Investigation / Monitoring / Escalation / Reporting  |
++------------------------------------------------------+
 🛠️ Tech Stack
 Frontend
 Next.js 14
@@ -259,9 +276,9 @@ deployment and DevOps improvements
 This project is licensed under the MIT License.
 
 
-Then run:
+Then save and run:
 
 ```powershell
 git add README.md
-git commit -m "Replace README with final version"
+git commit -m "Replace README with text architecture diagram"
 git push origin main
