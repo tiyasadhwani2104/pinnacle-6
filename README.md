@@ -1,284 +1,102 @@
-# Aegis-LLM: National Security Framework for Generative AI Defense
+Aegis-LLM: National Security Framework for Generative AI Defense
+![alt text](https://img.shields.io/badge/license-MIT-blue.svg)
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Next.js](https://img.shields.io/badge/Next.js-14-black)
-![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)
-![Groq](https://img.shields.io/badge/Groq-LLM%20Analysis-orange)
-![Status](https://img.shields.io/badge/status-Prototype%20Completed-cyan)
+![alt text](https://img.shields.io/badge/Python-3.9+-3776AB?logo=python&logoColor=white)
 
-## 🛡️ Overview
+![alt text](https://img.shields.io/badge/Next.js-14-black?logo=nextdotjs)
 
-Aegis-LLM is a cloud-based threat intelligence platform designed to detect, analyze, and mitigate the misuse of Large Language Models (LLMs) in phishing, disinformation, propaganda, and hostile influence operations.
+![alt text](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)
 
-As generative AI makes it easier to create persuasive and scalable malicious content, Aegis-LLM helps analysts monitor suspicious narratives, assign risk scores, detect coordinated behavior, and maintain tamper-evident forensic records.
+![alt text](https://img.shields.io/badge/Groq-LLM%20Analysis-orange)
+🛡️ Overview
+Aegis-LLM is a multi-layered technical and policy framework designed to detect, analyze, and mitigate the misuse of Large Language Models (LLMs) in hostile information operations.
+As generative AI democratizes the ability to produce sophisticated disinformation, phishing, and propaganda at scale, Aegis-LLM provides national security agencies with the tools to identify AI-generated threats, attribute them to malicious actors, and coordinate a cross-border response via a tamper-evident audit trail.
+🏗️ System Architecture
+Aegis-LLM utilizes a modular architecture that separates data ingestion, multi-model analysis, and forensic logging.
+code
+Mermaid
+graph TD
+    subgraph Ingestion_Layer
+        A[Social Media/Email/Web Ingest] --> B[Supabase Storage]
+    end
 
-This project was built as an academic cybersecurity and blockchain-oriented prototype with a focus on practical deployment, explainability, and national security relevance.
+    subgraph Analysis_Engine
+        B --> C{Orchestrator}
+        C --> D[Groq LLM: Narrative Analysis]
+        C --> E[RoBERTa/T5: Synthetic Text Classifier]
+        C --> F[Coordination Engine: SQL Pattern Matching]
+    end
 
----
+    subgraph Scoring_Forensics
+        D & E & F --> G[Final Risk Scoring Engine]
+        G --> H[SHA-256 Hash Chaining / Blockchain Audit]
+    end
 
-## 🚀 Key Features
+    subgraph Presentation
+        H --> I[Analyst Dashboard]
+        I --> J[Campaign Intelligence & Response]
+    end
 
-### 1. Real-Time Suspicious Content Analysis
-- Manual ingest pipeline for suspicious posts, messages, and narratives
-- Groq-powered analysis for:
-  - summary
-  - explanation
-  - narrative labeling
-  - Groq risk scoring
-- Lightweight fallback classifier for supporting content classification
+    style G fill:#f96,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
+🚀 Key Features
+1. Real-Time AI-Generated Content Detection
+Transformer-Based Classifiers: Utilizes fine-tuned RoBERTa and T5 models to distinguish between human and synthetic text.
+Stylometric Analysis: Analyzes entropy levels, token probability distributions (Log-Likelihood), and linguistic patterns unique to specific LLM architectures.
+Groq-Powered Context: Uses Groq's high-speed inference to summarize narratives and identify the "intent" behind suspicious posts.
+2. Attribution & Forensic Audit Trail
+Tamper-Evident Logging: Implements a blockchain-inspired audit trail using SHA-256 hash chaining. Every analysis step (ingest, score, attribution) is hashed and linked to the previous record.
+Coordination Detection: Identifies malicious campaigns by clustering repeated URLs, hashtags, and narrative signatures without the overhead of heavy graph databases.
+3. Privacy-Preserving Analytics
+Explainable AI (XAI): Provides "Risk Scores" (0–100) with interpretable justifications to maintain transparency in democratic institutions.
+Federated Approach: Designed to support local data processing, ensuring sensitive intelligence remains within jurisdictional boundaries while sharing only threat metadata.
+💻 Modules & Usage
+Detection Engine
+To analyze a suspicious snippet of text via the Python backend:
+code
+Python
+from aegis_llm.detection import Detector
 
-### 2. Final Risk Scoring Engine
-- Combines:
-  - Groq risk score
-  - classifier score
-  - coordination score
-- Produces a normalized **0–100 final risk score**
-- Assigns:
-  - Low
-  - Medium
-  - High
-  - Critical
+detector = Detector(model='roberta-large-detector')
+result = detector.predict("Insert suspicious text here...")
 
-### 3. Coordination Detection Without Graph Databases
-- Detects suspicious coordination using SQL-based analysis over:
-  - repeated URLs
-  - repeated hashtags
-  - repeated narrative labels
-- Generates campaign clusters from repeated malicious patterns
-- Avoids unnecessary graph database complexity while retaining strong campaign intelligence logic
+print(f"AI-Probability: {result.score}%")
+print(f"Narrative Label: {result.label}")
+Blockchain Audit Trail
+To log a detected threat to the cross-border ledger:
+code
+Python
+from aegis_llm.blockchain import ThreatLedger
 
-### 4. Blockchain-Inspired Audit Trail
-- Implements a tamper-evident audit trail using **SHA-256 hash chaining**
-- Logs major actions such as:
-  - ingest submission
-  - Groq analysis
-  - classifier execution
-  - coordination analysis
-- Simulates blockchain-style integrity without requiring a full distributed ledger
-
-### 5. Analyst Dashboard
-- Live dashboard for:
-  - total analyzed posts
-  - high-risk alerts
-  - average risk score
-  - active campaign clusters
-- Dedicated pages for:
-  - posts
-  - post details
-  - campaign clusters
-  - audit chain
-
----
-
-## 🏗️ System Architecture
-
-```text
-+------------------------------------------------------+
-|                   Data Ingestion Layer               |
-|  Manual Analyst Input / Social Media / Email / URLs  |
-+------------------------------------------------------+
-                           |
-                           v
-+------------------------------------------------------+
-|                 Supabase Storage Layer               |
-|  posts, accounts, hashtags, urls, analysis_results   |
-+------------------------------------------------------+
-                           |
-        -----------------------------------------
-        |                    |                  |
-        v                    v                  v
-+---------------+   +----------------+   +----------------------+
-| Groq Analysis |   | Fallback       |   | Coordination         |
-| Engine        |   | Classifier     |   | Detection Engine     |
-| summary       |   | label          |   | repeated URLs        |
-| explanation   |   | score          |   | repeated hashtags    |
-| narrative     |   |                |   | repeated narratives  |
-| Groq risk     |   |                |   | coordination score   |
-+---------------+   +----------------+   +----------------------+
-        |                    |                  |
-        -------------------  |  ----------------
-                          |  |  |
-                          v  v  v
-+------------------------------------------------------+
-|                 Risk Scoring Engine                  |
-| Combines Groq risk + classifier score + coordination |
-| Produces Final Risk Score (0-100)                    |
-+------------------------------------------------------+
-                           |
-                           v
-+------------------------------------------------------+
-|              Campaign & Audit Intelligence           |
-|  campaign_clusters  |  audit_chain (SHA-256 linked)  |
-+------------------------------------------------------+
-                           |
-                           v
-+------------------------------------------------------+
-|                  Analyst Dashboard                   |
-|  Dashboard / Posts / Post Detail / Campaigns / Audit |
-+------------------------------------------------------+
-                           |
-                           v
-+------------------------------------------------------+
-|                Security Response Layer               |
-| Investigation / Monitoring / Escalation / Reporting  |
-+------------------------------------------------------+
+ledger = ThreatLedger(provider_url="http://localhost:8545")
+ledger.record_threat(
+    threat_id="TR-99", 
+    origin="Unknown", 
+    confidence=0.98,
+    metadata_hash="sha256..."
+)
 🛠️ Tech Stack
-Frontend
-Next.js 14
-TypeScript
-Tailwind CSS
-Backend / Data Layer
-Supabase PostgreSQL
-Next.js Server Actions
-AI / Analysis
-Groq API
-Lightweight fallback classifier
-Security / Forensics
-SHA-256 audit chain
-SQL-based coordination detection
-Final risk scoring engine
-Deployment
-Vercel
-Supabase
-📦 Implemented Modules
-1. Ingest Module
-Allows analysts to submit:
-
-source platform
-account handle
-suspicious text
-optional narrative label
-hashtags
-URLs
-2. Groq Analysis Module
-Runs structured LLM analysis and stores:
-
-summary
-explanation
-Groq risk score
-narrative label
-3. Classification Module
-Runs a lightweight fallback classifier and stores:
-
-label
-confidence score
-4. Coordination Module
-Computes a coordination score from:
-
-repeated URLs
-repeated hashtags
-repeated narratives
-5. Risk Scoring Module
-Combines Groq, classifier, and coordination signals into a final risk score.
-
-6. Audit Module
-Writes tamper-evident records into audit_chain using:
-
-payload hash
-previous hash
-current hash
-event type
-timestamp
-🗄️ Database Schema
-Main tables:
-
-accounts
-posts
-hashtags
-post_hashtags
-urls
-post_urls
-analysis_results
-campaign_clusters
-audit_chain
+Frontend: Next.js 14, TypeScript, Tailwind CSS (Analyst Dashboard)
+Backend/Database: Supabase (PostgreSQL), Next.js Server Actions
+AI/ML: Python, Hugging Face (RoBERTa/T5), Groq API (Llama-3 analysis)
+Security: SHA-256 Forensics, SQL-based coordination logic, JWT Authentication
 📥 Installation
-1. Clone the Repository
-git clone https://github.com/your-username/aegis-llm.git
+Clone the Repository
+code
+Bash
+git clone https://github.com/tiyasadhwani2104/mitigating-national-security-risks-possed-by-LLMs.git
 cd aegis-llm
-2. Install Dependencies
-npm install
-3. Configure Environment Variables
+Environment Setup
 Create a .env.local file:
-
+code
+Env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_publishable_key
-GROQ_API_KEY=your_groq_api_key
-4. Set Up Supabase
-Run these SQL files in the Supabase SQL Editor:
-
-supabase/schema.sql
-supabase/seed.sql
-5. Run the Project
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+GROQ_API_KEY=your_groq_key
+Install & Run
+code
+Bash
+npm install
 npm run dev
-Open:
-
-http://localhost:3000
-📊 Core Workflows
-Ingest Suspicious Content
-Users submit suspicious text through /ingest. The system stores posts, hashtags, URLs, and account metadata in Supabase.
-
-Run Groq Analysis
-From /posts/[id], analysts can run Groq analysis to generate:
-
-summary
-explanation
-narrative label
-risk score
-Run Classification
-A lightweight classifier assigns a supporting label and confidence score.
-
-Run Coordination Detection
-The system checks whether the post shares URLs, hashtags, or narratives with other posts and computes a coordination score.
-
-Write Audit Events
-Every major action is written into a tamper-evident audit chain.
-
-🌐 Deployment
-Vercel Deployment
-Push the project to GitHub
-Import the repository into Vercel
-Set the correct root directory
-Add environment variables:
-NEXT_PUBLIC_SUPABASE_URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY
-GROQ_API_KEY
-Deploy
-⚖️ Policy and Security Relevance
-Aegis-LLM is designed around the principle that national security monitoring must balance:
-
-threat detection
-transparency
-explainability
-accountability
-civil liberties
-The prototype avoids storing raw personal identity information in any blockchain-like layer and instead focuses on metadata, scoring, and tamper-evident logging.
-
-🔮 Future Scope
-Planned enhancements include:
-
-Hugging Face hosted classifier endpoint integration
-transformer-based detection models
-multilingual detection
-explainable AI dashboards
-richer campaign analytics
-SIEM integration
-stronger access control and Row Level Security
-confidential ledger or blockchain-backed verification
-🤝 Contributing
-Contributions are welcome in:
-
-frontend improvements
-risk scoring logic
-database optimization
-explainability features
-deployment and DevOps improvements
 📄 License
-This project is licensed under the MIT License.
-
-
-Then save and run:
-
-```powershell
-git add README.md
-git commit -m "Replace README with text architecture diagram"
-git push origin main
+This project is licensed under the MIT License. Created for academic and national security research purposes.
