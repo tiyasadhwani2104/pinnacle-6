@@ -259,9 +259,9 @@ deployment and DevOps improvements
 This project is licensed under the MIT License.
 
 
-Then update it with:
+Then run:
 
 ```powershell
 git add README.md
-git commit -m "Clean up README formatting"
+git commit -m "Replace README with final version"
 git push origin main
