@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { analyzePostWithClassifier } from "@/lib/classifier";
 import { analyzeCoordination } from "@/lib/coordination";
 import { analyzePostWithGroq } from "@/lib/groq";
@@ -26,6 +27,11 @@ export async function runGroqAnalysis(
     return { error: "Groq analysis failed. Check GROQ_API_KEY and try again." };
   }
 
+  revalidatePath("/");
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath("/campaigns");
+  revalidatePath("/audit");
   redirect(`/posts/${postId}`);
 }
 
@@ -48,6 +54,11 @@ export async function runFallbackClassification(
     };
   }
 
+  revalidatePath("/");
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath("/campaigns");
+  revalidatePath("/audit");
   redirect(`/posts/${postId}`);
 }
 
@@ -70,5 +81,10 @@ export async function runCoordinationAnalysis(
     };
   }
 
+  revalidatePath("/");
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath("/campaigns");
+  revalidatePath("/audit");
   redirect(`/posts/${postId}`);
 }

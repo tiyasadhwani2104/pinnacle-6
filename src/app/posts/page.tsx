@@ -4,6 +4,8 @@ import { SectionCard } from "@/components/section-card";
 import { formatDateTime, formatScore, truncateText } from "@/lib/format";
 import { getPosts } from "@/lib/posts";
 
+export const dynamic = "force-dynamic";
+
 export default async function PostsPage() {
   const posts = await getPosts();
 

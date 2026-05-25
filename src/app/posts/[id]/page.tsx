@@ -7,6 +7,8 @@ import { SectionCard } from "@/components/section-card";
 import { formatDateTime, formatScore } from "@/lib/format";
 import { getPostById } from "@/lib/posts";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = {
   params: {
     id: string;

@@ -2,6 +2,8 @@ import { Badge } from "@/components/badge";
 import { SectionCard } from "@/components/section-card";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function CampaignsPage() {
   const supabase = getSupabaseServerClient();
 

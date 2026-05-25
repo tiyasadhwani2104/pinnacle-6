@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import {
   ensureHashtagIds,
@@ -79,5 +80,9 @@ export async function submitIngest(
     };
   }
 
+  revalidatePath("/");
+  revalidatePath("/posts");
+  revalidatePath("/campaigns");
+  revalidatePath("/audit");
   redirect(`/posts/${postId}`);
 }

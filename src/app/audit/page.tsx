@@ -3,6 +3,8 @@ import { SectionCard } from "@/components/section-card";
 import { formatDateTime } from "@/lib/format";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 function truncateHash(hash: string, start = 12, end = 8) {
   if (!hash) return "N/A";
   if (hash.length <= start + end + 3) return hash;
