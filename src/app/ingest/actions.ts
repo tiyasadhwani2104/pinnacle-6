@@ -72,11 +72,11 @@ export async function submitIngest(
     await linkPostUrls(post.id, urlIds);
 
     postId = post.id;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
 
     return {
-      error: "Failed to save the post. Please check your values and try again.",
+      error: `Failed to save the post. Error: ${error?.message || error?.details || String(error)}`,
     };
   }
 
